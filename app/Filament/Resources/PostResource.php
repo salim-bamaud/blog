@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Tables\Columns\CheckboxColumn;
@@ -30,7 +31,7 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
     {
@@ -44,13 +45,13 @@ class PostResource extends Resource
                             'min:3' , 'max:50'
                         ])->required(),
 
-                        MarkdownEditor::make('content')->required()->columnSpanFull(),
+                        RichEditor::make('content')->required()->columnSpanFull(),
                 ])->columnSpan(2)->columns(2),
 
                 Section::make('Meta')->schema([
                         FileUpload::make('thumbnail')->disk('public')->directory('thumbnails'),
 
-                        TagsInput::make('tags')->required(),
+                        TagsInput::make('tags'),
                 ])->columnSpan(1)
 
             ])->columns(3);
@@ -60,8 +61,20 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('thumbnail')->toggleable(),
+                ImageColumn::make('thumbnail')
+                ->toggleable(),
                 TextColumn::make('title')
+                ->limit(50)
+                ->tooltip(function (TextColumn $column): ?string {
+                    $state = $column->getState();
+
+                    if (strlen($state) <= $column->getCharacterLimit()) {
+                        return null;
+                    }
+
+                    // Only render the tooltip if the column content exceeds the length limit.
+                    return $state;
+                })
                 ->sortable()
                 ->searchable()
                 ->toggleable(),
