@@ -32,6 +32,7 @@ class PostResource extends Resource
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    //protected static ?string $modelLabel = 'Post';
 
     public static function form(Form $form): Form
     {
@@ -41,9 +42,7 @@ class PostResource extends Resource
                 ->description('write your new post.')
                 ->collapsible()
                 ->schema([
-                        TextInput::make('title')->rules([
-                            'min:3' , 'max:50'
-                        ])->required(),
+                        TextInput::make('title')->minLength(3)->maxLength(50)->required(),
 
                         RichEditor::make('content')->required()->columnSpanFull(),
                 ])->columnSpan(2)->columns(2),
@@ -63,8 +62,9 @@ class PostResource extends Resource
             ->columns([
                 ImageColumn::make('thumbnail')
                 ->toggleable(),
+                //NumberColumn::make('reports'),
                 TextColumn::make('title')
-                ->limit(50)
+                ->limit(30)
                 ->tooltip(function (TextColumn $column): ?string {
                     $state = $column->getState();
 
@@ -78,6 +78,8 @@ class PostResource extends Resource
                 ->sortable()
                 ->searchable()
                 ->toggleable(),
+                //TextColumn::make('comments'),
+                //TextColumn::make('reports'),
                 TextColumn::make('tags')->toggleable(),
                 TextColumn::make('created_at')->label('Published on')
                 ->date()

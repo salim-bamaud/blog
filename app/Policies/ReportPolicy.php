@@ -37,7 +37,8 @@ class ReportPolicy
      */
     public function update(User $user, Report $report): bool
     {
-        return $user->id == $report->user_id;
+        //return $user->id == $report->user_id;
+        return false;
     }
 
     /**
@@ -45,7 +46,8 @@ class ReportPolicy
      */
     public function delete(User $user, Report $report): bool
     {
-        return $user->id == $report->user_id;
+        //return $user->id == $report->user_id;
+        return $user->is_admin;
     }
 
     /**

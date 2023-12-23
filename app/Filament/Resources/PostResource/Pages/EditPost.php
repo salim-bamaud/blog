@@ -16,4 +16,9 @@ class EditPost extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    // public function mutateFormDataBeforeSave(array $data){
+    //     $data['content'] = str_replace(['<pre>','</pre>'], ['<code>' , '</code>'] , $data['content']);
+    //     return $data;
+    // }
 }

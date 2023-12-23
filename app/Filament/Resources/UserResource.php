@@ -8,7 +8,9 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -24,8 +26,11 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('name')->required(),
+                TextInput::make('email')->email()->required()->unique(ignoreRecord:true),
+                TextInput::make('password')->password()->required()->visibleOn('create'),
                 Toggle::make('is_admin')
-                ->onIcon('heroicon-m-bolt')
+                ->onIcon('heroicon-m-check-circle')
                 ->offIcon('heroicon-m-user')
             ]);
     }
@@ -34,15 +39,17 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('id')->sortable()->searchable()->toggleable(isToggledHiddenByDefault:true),
+                TextColumn::make('name')->sortable()->searchable()
                 ->badge(),
-                TextColumn::make('email')
+                TextColumn::make('email')->label('Email Address')->sortable()->searchable()
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
