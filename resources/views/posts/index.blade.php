@@ -16,7 +16,8 @@
                             <div>
                                 <h2 class="text-xl font-semibold mb-2">{{ $post->title }}</h2>
                                 <p class="text-gray-600">
-                                    {{ Str::limit($post->content, 200, '...') }}
+                                    {!! Illuminate\Support\Str::limit($post->content, 200) !!}
+                                    {{-- {!! {{ Str::limit($post->content, 200, '...') }} !!} --}}
                                 </p>
                                 <div class="flex justify-between mt-4">
                                     <div class="flex items-center">

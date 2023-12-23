@@ -13,7 +13,7 @@
             @else
             {{ asset('storage/' . $post->thumbnail) }} @endif"
                 alt="Post Thumbnail" class="w-100 h-80 mt-10 mb-8 rounded">
-            <p class="text-gray-600">{{ $post->content }}</p>
+            <p class="text-gray-600">{!! $post->content !!}</p>
             <p class="text-sm text-gray-400">{{ $post->user->name }}</p>
             <p class="text-sm text-gray-400">{{ $post->created_at->format('M d, Y') }}</p>
 

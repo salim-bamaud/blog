@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\RelationManagers\PostsRelationManager;
 
 class UserResource extends Resource
 {
@@ -40,8 +41,14 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable()->searchable()->toggleable(isToggledHiddenByDefault:true),
-                TextColumn::make('name')->sortable()->searchable()
-                ->badge(),
+                TextColumn::make('name')->sortable()->searchable(),
+
+                TextColumn::make('is_admin')->sortable()->searchable()
+                    ->badge()
+                    ->color(function(string $state): string{
+                    return $state == true ? 'success' : 'danger';
+                }),
+
                 TextColumn::make('email')->label('Email Address')->sortable()->searchable()
             ])
             ->filters([
@@ -61,7 +68,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PostsRelationManager::class
         ];
     }
 

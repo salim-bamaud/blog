@@ -5,10 +5,13 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
+use Filament\Forms\Set;
 use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Checkbox;
@@ -26,6 +29,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\PostResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 
 class PostResource extends Resource
 {
@@ -43,7 +47,6 @@ class PostResource extends Resource
                 ->collapsible()
                 ->schema([
                         TextInput::make('title')->minLength(3)->maxLength(50)->required(),
-
                         RichEditor::make('content')->required()->columnSpanFull(),
                 ])->columnSpan(2)->columns(2),
 
@@ -63,6 +66,9 @@ class PostResource extends Resource
                 ImageColumn::make('thumbnail')
                 ->toggleable(),
                 //NumberColumn::make('reports'),
+                TextColumn::make('content')
+                ->html()
+                ->limit(30),
                 TextColumn::make('title')
                 ->limit(30)
                 ->tooltip(function (TextColumn $column): ?string {
@@ -88,7 +94,11 @@ class PostResource extends Resource
                 ->toggleable(),
             ])
             ->filters([
-                //
+                Filter::make('Reported Posts')->query(
+                    function(Builder $query){
+                        return $query->whereHas('reports')->get();
+                    }
+                )
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -104,7 +114,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class
         ];
     }
 
