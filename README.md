@@ -6,6 +6,10 @@
 <li>configure your database connection in .env file</li>
 <li>run : <code>php artisan migrate</code></li>
 <li>run : <code>php artisan db:seed</code></li>
+<li>run : <code>npm install</code></li>
+<li>run : <code>npm run build</code></li>
 <li>run : <code>php artisan serve</code></li>
-<li>run : <code>npm run dev</code> </li>
+
+<li>login as admin : <code>admin@admin.com </code> password: <code> password </code> </li>
+<li>login as blogger : <code> test@test.com </code> password <code>password</code> </li>
 </ul>
