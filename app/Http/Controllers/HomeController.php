@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index(){
-        $posts = Post::orderBy('id')->cursorPaginate(10);
-        return view('posts.index' , compact('posts'));
+    public function index(Request $request){
+        // $posts = Post::orderBy('id')->cursorPaginate(10);
+        // return view('posts.index' , compact('posts'));
+        return view('posts.index' , [
+            'posts' => Post::latest()->filter(request(['tag' , 'search']))->cursorPaginate(10)
+        ]);
     }
 
     public function show(Post $slug){

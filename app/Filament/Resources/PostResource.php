@@ -65,7 +65,9 @@ class PostResource extends Resource
             ->columns([
                 ImageColumn::make('thumbnail')
                 ->toggleable(),
-                //NumberColumn::make('reports'),
+                TextColumn::make('reports')->getStateUsing(fn ($record) => $record->reports()->count())->visible(function(){
+                   return auth()->user()->is_admin ? true : false;
+                }),
                 TextColumn::make('content')
                 ->html()
                 ->limit(30),

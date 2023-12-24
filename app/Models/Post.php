@@ -14,6 +14,17 @@ class Post extends Model
 
     protected $fillable = ['title' , 'thumbnail' , 'user_id' , 'slug' , 'tags' , 'content'] ;
 
+    public function scopeFilter($query, array $filters){
+        if($filters['tag'] ?? false){
+            $query->where('tags' , 'like' , '%' . request('tag') . '%');
+        }
+        if($filters['search'] ?? false){
+            $query->where('title' , 'like' , '%' . request('search') . '%')
+            ->orWhere('content' , 'like' , '%' . request('search') . '%')
+            ->orWhere('tags' , 'like' , '%' . request('search') . '%');
+        }
+    }
+
     protected $casts = [
         'tags' => 'array',
     ];

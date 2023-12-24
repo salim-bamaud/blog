@@ -42,6 +42,6 @@ class PostFactory extends Factory
             $tags[] = $this->faker->word;
         }
 
-        return json_encode($tags);
+        return $tags;
     }
 }

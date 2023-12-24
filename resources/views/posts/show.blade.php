@@ -23,6 +23,19 @@
             </p>
             <p class="text-sm text-gray-400">{{ $post->created_at->format('M d, Y') }}</p>
 
+
+            <div class="m-4">
+                <ul class="flex justify-center">
+                    @forelse ($post->tags as $tag)
+                        <li
+                            class="flex items-center justify-center bg-gray-500 text-white rounded-xl py-1 px-3 mr-2 text-xs">
+                            <a href="/?tag={{ $tag }}"> {{ $tag }} </a>
+                        </li>
+                    @empty
+                    @endforelse
+                </ul>
+            </div>
+
             <div class="w-full mt-10 p-4 justify-start">
                 comments: {{ ' ' . $post->comments->count() }}
                 <hr>

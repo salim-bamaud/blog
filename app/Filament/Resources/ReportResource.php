@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ReportResource\Pages;
-use App\Filament\Resources\ReportResource\RelationManagers;
-use App\Models\Report;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Report;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ReportResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ReportResource\RelationManagers;
 
 class ReportResource extends Resource
 {
@@ -31,7 +32,8 @@ class ReportResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('content')->limit(50),
+                TextColumn::make('post.title')->limit(50),
             ])
             ->filters([
                 //
