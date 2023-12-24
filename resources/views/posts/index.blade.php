@@ -29,7 +29,7 @@
                             <div>
                                 <h2 class="text-xl font-semibold mb-2">{{ $post->title }}</h2>
                                 <p class="text-gray-600">
-                                    {!! Illuminate\Support\Str::limit($post->content, 200) !!}
+                                    {!! Illuminate\Support\Str::limit(strip_tags($post->content), 200) !!}
                                 </p>
                                 <ul class="flex justify-center">
                                     @forelse ($post->tags as $tag)
