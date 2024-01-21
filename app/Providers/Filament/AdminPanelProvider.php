@@ -18,6 +18,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\Pages\Auth\EmailVerification\EmailVerificationPrompt;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->login()
             ->profile()
+            ->emailVerification()
             ->colors([
             'danger' => Color::Rose,
             'gray' => Color::Gray,
@@ -57,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                //EmailVerificationPrompt::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
